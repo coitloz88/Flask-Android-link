@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Flask-Android-Test"
+rootProject.name = "FlaskServerTest"
 include ':app'

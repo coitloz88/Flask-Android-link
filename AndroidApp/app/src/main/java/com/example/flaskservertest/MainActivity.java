@@ -1,4 +1,4 @@
-package com.example.flask_android_test;
+package com.example.flaskservertest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,15 +22,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //((TextView) findViewById(R.id.tv_test_message)).setText("Set Text function");
 
         Response.Listener<String> rplsn = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
+                ((TextView) findViewById(R.id.tv_test_message)).setText(response.toString());
+
+                if(false) try {
                     JSONObject jsonObject = new JSONObject(response);
-                    ((TextView) findViewById(R.id.tv_flaskText)).setText(jsonObject.getString("tk"));
-                } catch (JSONException e){
-                    Toast.makeText(getApplicationContext(), "Err ErrorListener:" + e.toString(), Toast.LENGTH_SHORT).show();
+                    ((TextView) findViewById(R.id.tv_test_message)).setText(jsonObject.getString("title"));
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Err ErrorListener:" + e, Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -42,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        String URL = "http://127.0.0.1:5000/";
+        String URL = "https://jsonplaceholder.typicode.com/todos/1";
         StringRequest req = new StringRequest(Request.Method.GET, URL, rplsn, errlsn);
         RequestQueue rq = Volley.newRequestQueue(MainActivity.this);
         rq.add(req);
+
     }
 }

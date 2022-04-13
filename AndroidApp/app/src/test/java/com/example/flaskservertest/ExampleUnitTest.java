@@ -1,4 +1,4 @@
-package com.example.flask_android_test;
+package com.example.flaskservertest;
 
 import org.junit.Test;
 
