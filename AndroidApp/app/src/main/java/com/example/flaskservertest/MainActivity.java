@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //((TextView) findViewById(R.id.tv_test_message)).setText("Set Text function");
 
         Response.Listener<String> rplsn = new Response.Listener<String>() {
             @Override
@@ -45,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        String URL = "https://jsonplaceholder.typicode.com/todos/1";
+        //String URL = "https://jsonplaceholder.typicode.com/todos/1";
+        String URL = "http://10.0.2.2:5000";
         StringRequest req = new StringRequest(Request.Method.GET, URL, rplsn, errlsn);
         RequestQueue rq = Volley.newRequestQueue(MainActivity.this);
         rq.add(req);
