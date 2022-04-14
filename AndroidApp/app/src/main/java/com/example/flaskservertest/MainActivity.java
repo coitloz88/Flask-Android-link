@@ -14,6 +14,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     SwipeRefreshLayout srl;
@@ -38,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Response.Listener<String> rplsn = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ((TextView) findViewById(R.id.tv_test_message)).setText(response.toString());
-//                if(false) try {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    ((TextView) findViewById(R.id.tv_test_message)).setText(jsonObject.getString("title"));
-//                } catch (JSONException e) {
-//                    Toast.makeText(getApplicationContext(), "Err ErrorListener:" + e, Toast.LENGTH_SHORT).show();
-//                }
+                //((TextView) findViewById(R.id.tv_test_message)).setText(response.toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    ((TextView) findViewById(R.id.tv_test_message)).setText("Random Number: " + jsonObject.getInt("tk"));
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Err ErrorListener:" + e, Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
