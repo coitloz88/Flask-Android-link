@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         String url = "http://10.0.2.2:5000";
         StringRequest request;
 
+        //TODO: response listener, error listener는 따로 
         switch (type){
             case GETDATA:
                 url += "/send";
