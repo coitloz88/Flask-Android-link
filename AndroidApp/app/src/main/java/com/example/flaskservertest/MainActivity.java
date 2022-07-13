@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         };
 
-        //String URL = "https://jsonplaceholder.typicode.com/todos/1";
         String URL = "http://10.0.2.2:5000";
         StringRequest req = new StringRequest(Request.Method.GET, URL, rplsn, errlsn);
         RequestQueue rq = Volley.newRequestQueue(MainActivity.this);
