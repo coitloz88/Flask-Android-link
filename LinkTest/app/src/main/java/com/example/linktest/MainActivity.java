@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeRequest(int type) {
-        String url = "http://10.0.2.2:5000";
+        String url = "http://143.248.96.4:5000";
         StringRequest request;
 
         //TODO: response listener, error listener는 따로 
