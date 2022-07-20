@@ -1,6 +1,10 @@
 package com.example.linktest;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -26,8 +30,11 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static RequestQueue requestQueue;
 
     private static final String TAG = "MainActivity";
     private final int GETDATA = 0;
@@ -35,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tv_getdata;
     private EditText et_email;
-
-    private static RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +51,25 @@ public class MainActivity extends AppCompatActivity {
         tv_getdata = findViewById(R.id.tv_getdata);
         et_email = findViewById(R.id.et_email);
 
-        requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         Button btn_getdata = findViewById(R.id.btn_getdata);
         btn_getdata.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
-                makeRequest(GETDATA);
+                PeriodicWorkRequest getWorkRequest = new PeriodicWorkRequest.Builder(IncentiveWork.class, 15, TimeUnit.MINUTES).build();
+                WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork("GetNewIncentiveWork", ExistingPeriodicWorkPolicy.KEEP, getWorkRequest);
+                Toast.makeText(MainActivity.this, "Start to get incentive periodically", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button btn_stopdata = findViewById(R.id.btn_stopget);
+        btn_stopdata.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                WorkManager.getInstance(getApplicationContext()).cancelUniqueWork("GetNewIncentiveWork");
+                Toast.makeText(MainActivity.this, "Stop to get incentive", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -76,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO: response listener, error listener는 따로 
         switch (type){
             case GETDATA:
-                url += "/send";
+                url += "/sample";
                 request = new StringRequest(
                         Request.Method.GET,
                         url,
